@@ -13,6 +13,7 @@ $(function() {
 
     // 从layui中获取form对象
     var form = layui.form
+    var layer = layui.layer
         // 通过form.verify()函数自定义效验规则
     form.verify({
         username: function(value, item) { //value：表单的值、item：表单的DOM对象
@@ -27,20 +28,21 @@ $(function() {
         //密码效验两次密码是否一致
         repwd: function(value) {
             //通过形参拿到的是确认密码框中的内容
-            var pwd = $('#pwd').val();
-            console.log(pwd);
-            console.log(value);
-
-
+            var pwd = $('.reg-box [name=password]').val();
             if (pwd !== value) {
                 return '两次密码不一致！'
             }
+
         }
+
+
     });
 
     //监听注册表单的提交事件
     $('#form_reg').on('submit', function(e) {
         // 1. 阻止默认的提交行为
+        console.log(1);
+
         e.preventDefault()
             // 2. 发起Ajax的POST请求
         var data = {
@@ -49,11 +51,13 @@ $(function() {
         }
         $.post('http://ajax.frontend.itheima.net/api/reguser', data, function(res) {
             if (res.status !== 0) {
-                return layer.msg(res.message)
+                return layer.msg(res.message);
             }
-            layer.msg('注册成功，请登录！')
-                // 模拟人的点击行为
-            $('#link_login').click()
+            layer.msg('注册成功，请登录！');
+            // 模拟人的点击行为
+            $('#link_login').click();
+            console.log($('#link_login'));
+
         })
     })
 })
